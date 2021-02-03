@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <select id="s1" name="dropdown" onchange="f1()"></select>
+    <div id="text"></div>
+    <script>
+      let dropdown = document.getElementById("s1");
+      dropdown.length = 0;
+
+      let defaultOption = document.createElement("option");
+      defaultOption.text = "Select";
+
+      dropdown.add(defaultOption);
+      dropdown.selectedIndex = 0;
+
+      fetch("data.json").then(function (response) {
+        response.json().then(function (data) {
+          let option;
+
+          for (let i = 0; i < data.length; i++) {
+            option = document.createElement("option");
+            option.text = data[i].name;
+            option.value = data[i].id;
+            dropdown.add(option);
+          }
+        });
+      });
+      function f1() {
+        var obj1 = document.getElementById("s1");
+        fetch("data.json").then(function (response) {
+          response.json().then(function (ndata) {
+            ndata.map((d) => {
+              d.id === obj1.value
+                ? (document.getElementById("text").innerHTML = d.desc)
+                : "";
+            });
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
